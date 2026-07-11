@@ -1,0 +1,12 @@
+Source: jobarranger-manager
+Section: web
+Priority: optional
+Maintainer: Daiwa Institute of Research Ltd
+Build-Depends: debhelper (>= 12)
+
+Package: jobarranger-manager
+Architecture: amd64
+Depends: php7.2-common | php7.3-common | php7.4-common | php8.0-common | php8.1-common | php-common (<< 8.2), php7.2-cli | php7.3-cli | php7.4-cli | php8.0-cli | php8.1-cli | php-cli (<< 8.2), php7.2-curl | php7.3-curl | php7.4-curl | php8.0-curl | php8.1-curl | php-curl (<< 8.2), php7.2-xml | php7.3-xml | php7.4-xml | php8.0-xml | php8.1-xml | php-xml (<< 8.2), php7.2-mbstring | php7.3-mbstring | php7.4-mbstring | php8.0-mbstring | php8.1-mbstring | php-mbstring (<< 8.2), apache2, libapache2-mod-php7.2 | libapache2-mod-php7.3 | libapache2-mod-php7.4 | libapache2-mod-php8.0 | libapache2-mod-php8.1
+Description: Job Arranger Manager
+ Job Arranger Manager is a client terminal for editing job nets and checking job operation status. This package contains the Job Arranger Manager files and Apache configuration files.
+Homepage: https://www.jobarranger.info/redmine/

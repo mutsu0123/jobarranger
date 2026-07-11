@@ -1,0 +1,33 @@
+#!/bin/sh
+
+set -e
+
+case "$1" in
+    remove|upgrade|deconfigure)
+        # Remove the configuration files
+        rm -f /etc/apache2/conf-available/jobarranger-ui.conf
+        rm -f /etc/apache2/conf-available/jobarranger-api.conf
+
+        # Disable the Apache configuration files
+        #a2disconf jobarranger-ui
+        #a2disconf jobarranger-api
+
+        # Reload Apache configuration
+        systemctl reload apache2
+
+	echo "Packagesssss are removing."
+
+        # Remove the systemd service file
+        systemctl stop jam-cleanup.service || true
+        systemctl disable jam-cleanup.service || true
+        rm -f /etc/systemd/system/jam-cleanup.service
+        systemctl daemon-reload
+        ;;
+
+    purge)
+        rm -f /etc/jobarranger/web/jam.config.php
+        rm -f /etc/jobarranger/web/jam.config.php*
+        ;;
+esac
+
+exit 0

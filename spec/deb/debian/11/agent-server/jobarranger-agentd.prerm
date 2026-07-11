@@ -1,0 +1,22 @@
+#!/bin/bash
+set -e
+
+if [ "$1" = "remove" ] || [ "$1" = "purge" ]; then
+  if [ -e /lib/systemd/system/jobarg-agentd.service ]; then
+    cd /lib/systemd/system
+    systemctl stop jobarg-agentd.service >/dev/null 2>&1 || :
+  fi
+  if [ -f /var/lib/jobarranger/jobarg_agentd.db -o \
+       -f /var/lib/jobarranger/jobarg_agentd.db.backup -o \
+       -f /var/lib/jobarranger/jobarg_agentd.db.jajournal ]; then
+    rm -f /var/lib/jobarranger/jobarg_agentd.*
+  fi
+  if ls /etc/jobarranger/jobarg_agentd.conf.* 1> /dev/null 2>&1; then
+    rm -rf /etc/jobarranger/jobarg_agentd.conf.*
+  fi
+  rm -rf /var/log/jobarranger/jobarg_agentd.*
+  rm -rf /var/lib/jobarranger/tmp/*
+  rm -rf /var/log/jobarranger/job
+  rm -rf /var/log/jobarranger/jobstatus.chk
+  rm -rf /var/log/jobarranger/session_dbc_locks  
+fi

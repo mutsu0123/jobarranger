@@ -1,0 +1,18 @@
+#!/bin/bash
+set -e
+
+if ! dpkg -l | grep -q 'php-mysql' && \
+   ! dpkg -l | grep -q 'php-pgsql' && \
+   ! dpkg -l | grep -q 'php7.2-mysql' && \
+   ! dpkg -l | grep -q 'php7.3-mysql' && \
+   ! dpkg -l | grep -q 'php7.4-mysql' && \
+   ! dpkg -l | grep -q 'php8.0-mysql' && \
+   ! dpkg -l | grep -q 'php8.1-mysql' && \
+   ! dpkg -l | grep -q 'php7.2-pgsql' && \
+   ! dpkg -l | grep -q 'php7.3-pgsql' && \
+   ! dpkg -l | grep -q 'php7.4-pgsql' && \
+   ! dpkg -l | grep -q 'php8.0-pgsql' && \
+   ! dpkg -l | grep -q 'php8.1-pgsql'; then
+    echo "You need to have either php-mysqlnd or php-pgsql installed (supported versions: 7.2 to 8.1)."
+    exit 1
+fi

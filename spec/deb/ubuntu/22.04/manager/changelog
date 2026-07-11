@@ -1,0 +1,7 @@
+jobarranger-manager (6.1.9-1+ubuntu22.04) stable; urgency=medium
+
+  * New job arranger manager web version
+  * Fixed bug
+  * UI enhancement
+
+ -- Daiwa Institute of Research Business Innovation Ltd <https://www.jobarranger.info/redmine/> Fri, 20 Dec 2024 14:15:00
