@@ -3,6 +3,7 @@ AC_INIT([jobarranger], [6.0.9], [support@example.com])
 
 AC_CONFIG_SRCDIR([src/jobarg_server/jarun/jarun.c])
 AC_CONFIG_HEADERS([include/config.h])
+AC_CONFIG_MACRO_DIR([m4])
 
 AM_INIT_AUTOMAKE([foreign subdir-objects])
 
@@ -21,6 +22,34 @@ AC_PROG_RANLIB
 AC_SEARCH_LIBS([socket], [socket])
 AC_SEARCH_LIBS([gethostbyname], [nsl])
 AC_SEARCH_LIBS([clock_gettime], [rt])
+
+# PostgreSQL detection (required - JobArranger is PostgreSQL-only)
+# Search for pg_config in PATH and RHEL/AlmaLinux non-standard locations.
+PG_CONFIG="no"
+AC_PATH_PROG([PG_CONFIG], [pg_config], [no],
+    [$PATH:/usr/pgsql-16/bin:/usr/pgsql-15/bin:/usr/pgsql-14/bin:/usr/pgsql-13/bin:/usr/pgsql-12/bin])
+if test "$PG_CONFIG" = "no"; then
+    AC_MSG_ERROR([pg_config not found. Install PostgreSQL development package (libpq-dev / postgresql-devel) and ensure pg_config is in PATH.])
+fi
+AC_MSG_CHECKING([PostgreSQL version])
+POSTGRESQL_VERSION=`$PG_CONFIG --version`
+AC_MSG_RESULT([$POSTGRESQL_VERSION])
+POSTGRESQL_CPPFLAGS="-I`$PG_CONFIG --includedir`"
+POSTGRESQL_LDFLAGS="-L`$PG_CONFIG --libdir`"
+POSTGRESQL_LIBS="-lpq"
+AC_SUBST([POSTGRESQL_CPPFLAGS])
+AC_SUBST([POSTGRESQL_LDFLAGS])
+AC_SUBST([POSTGRESQL_LIBS])
+AC_SUBST([POSTGRESQL_VERSION])
+DB_CPPFLAGS="$POSTGRESQL_CPPFLAGS"
+DB_LDFLAGS="$POSTGRESQL_LDFLAGS"
+DB_LIBS="$POSTGRESQL_LIBS"
+AC_SUBST([DB_CPPFLAGS])
+AC_SUBST([DB_LDFLAGS])
+AC_SUBST([DB_LIBS])
+AC_DEFINE([HAVE_POSTGRESQL], [1], [Define to 1 if PostgreSQL is available])
+# PQserverVersion is available since PostgreSQL 7.4
+AC_DEFINE([HAVE_FUNCTION_PQSERVERVERSION], [1], [Define to 1 if PQserverVersion exists])
 
 # Linux only
 ARCH="linux"
