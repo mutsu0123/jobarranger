@@ -22,6 +22,7 @@ PKG_PROG_PKG_CONFIG
 AC_SEARCH_LIBS([socket], [socket])
 AC_SEARCH_LIBS([gethostbyname], [nsl])
 AC_SEARCH_LIBS([clock_gettime], [rt])
+AC_SEARCH_LIBS([round], [m])
 
 # PostgreSQL detection (required - JobArranger is PostgreSQL-only)
 # Search for pg_config in PATH and RHEL/AlmaLinux non-standard locations.

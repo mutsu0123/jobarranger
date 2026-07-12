@@ -16,7 +16,8 @@ libjacommon_a_SOURCES = \
 	jatelegram.c \
 	jalockutil.c \
 	jatime.c \
-	jaerror.c 
+	jaerror.c \
+	jasyscall.c
 
 if SERVER
 libjaserver_a_CFLAGS = -I@top_srcdir@/jainclude/
