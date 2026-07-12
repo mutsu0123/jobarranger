@@ -32,49 +32,15 @@ AC_CHECK_HEADERS([sys/sysinfo.h sys/time.h sys/resource.h])
 AC_CHECK_FUNCS([sysinfo getloadavg])
 
 # Network and POSIX system headers required by sysinc.h (Zabbix 1.x design).
-# sysinc.h uses #ifdef HAVE_xxx guards for each header; these checks populate
-# config.h so the correct headers are included on each platform.
-AC_CHECK_HEADERS([
-  netdb.h
-  netinet/in.h
-  sys/socket.h
-  arpa/inet.h
-  arpa/nameser.h
-  errno.h
-  fcntl.h
-  assert.h
-  pthread.h
-  signal.h
-  pwd.h
-  grp.h
-  syslog.h
-  sys/ipc.h
-  sys/sem.h
-  sys/shm.h
-  sys/wait.h
-  sys/file.h
-  sys/syscall.h
-  sys/stat.h
-  sys/param.h
-  sys/times.h
-  sys/sysmacros.h
-  sys/ucontext.h
-  mntent.h
-  net/if.h
-  time.h
-  math.h
-  regex.h
-  dirent.h
-  ctype.h
-  stdarg.h
-  stdio.h
-  stdlib.h
-  string.h
-  strings.h
-  inttypes.h
-  stdint.h
-  unistd.h
-])
+# sysinc.h uses #ifdef HAVE_xxx guards; these checks populate config.h so
+# the correct headers are included on each platform. Split into groups to
+# avoid autoconf 2.69 multi-line bracket parsing issues.
+AC_CHECK_HEADERS([netdb.h netinet/in.h sys/socket.h arpa/inet.h arpa/nameser.h])
+AC_CHECK_HEADERS([errno.h fcntl.h assert.h pthread.h signal.h pwd.h grp.h])
+AC_CHECK_HEADERS([syslog.h sys/ipc.h sys/sem.h sys/shm.h sys/wait.h sys/file.h])
+AC_CHECK_HEADERS([sys/syscall.h sys/stat.h sys/param.h sys/times.h sys/sysmacros.h sys/ucontext.h])
+AC_CHECK_HEADERS([mntent.h net/if.h time.h math.h regex.h dirent.h])
+AC_CHECK_HEADERS([ctype.h stdarg.h stdio.h stdlib.h string.h strings.h inttypes.h stdint.h unistd.h])
 
 AC_MSG_CHECKING(for /proc filesystem)
 if test -d /proc; then
