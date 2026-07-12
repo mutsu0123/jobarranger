@@ -77,8 +77,8 @@ if test "$with_bundled_libtar" != "yes"; then
 fi
 
 if test "$found_libtar" = "no"; then
-    BUNDLED_LIBTAR_DIR="$srcdir/libtar-master-6d0ab4c/build"
-    if test -f "$BUNDLED_LIBTAR_DIR/lib/libtar.a"; then
+    BUNDLED_LIBTAR_DIR="$(cd "$srcdir/libtar-master-6d0ab4c/build" 2>/dev/null && pwd)"
+    if test -n "$BUNDLED_LIBTAR_DIR" && test -f "$BUNDLED_LIBTAR_DIR/lib/libtar.a"; then
         found_libtar="bundled"
         LIBTAR_CPPFLAGS="-I$BUNDLED_LIBTAR_DIR/include"
         LIBTAR_LDFLAGS="-L$BUNDLED_LIBTAR_DIR/lib"
