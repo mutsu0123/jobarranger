@@ -60,11 +60,43 @@ if test "x$found_iconv" != "xyes"; then
     AC_MSG_ERROR([iconv not found. Install libiconv-devel or libc-devel.])
 fi
 
+# libtar detection - prefer system libtar-dev; fall back to bundled build
+AC_ARG_WITH([bundled-libtar],
+    [AS_HELP_STRING([--with-bundled-libtar], [use bundled libtar (auto if system libtar not found)])],
+    [with_bundled_libtar=$withval], [with_bundled_libtar=auto])
+
+LIBTAR_CPPFLAGS=""
+LIBTAR_LDFLAGS=""
+LIBTAR_LIBS="-ltar"
+found_libtar="no"
+
+if test "$with_bundled_libtar" != "yes"; then
+    AC_CHECK_HEADER([libtar.h], [
+        AC_CHECK_LIB([tar], [tar_open], [found_libtar="system"])
+    ])
+fi
+
+if test "$found_libtar" = "no"; then
+    BUNDLED_LIBTAR_DIR="$srcdir/libtar-master-6d0ab4c/build"
+    if test -f "$BUNDLED_LIBTAR_DIR/lib/libtar.a"; then
+        found_libtar="bundled"
+        LIBTAR_CPPFLAGS="-I$BUNDLED_LIBTAR_DIR/include"
+        LIBTAR_LDFLAGS="-L$BUNDLED_LIBTAR_DIR/lib"
+        AC_MSG_RESULT([using bundled libtar from $BUNDLED_LIBTAR_DIR])
+    else
+        AC_MSG_ERROR([libtar not found. Run: sh libtar-master-6d0ab4c/build_libtar.sh])
+    fi
+fi
+
+AC_SUBST([LIBTAR_CPPFLAGS])
+AC_SUBST([LIBTAR_LDFLAGS])
+AC_SUBST([LIBTAR_LIBS])
+
 # Append to global compiler/linker flags so every Makefile.am picks them up
 # without needing individual AM_CPPFLAGS changes (PostgreSQL is required everywhere)
-CPPFLAGS="$CPPFLAGS $POSTGRESQL_CPPFLAGS $ICONV_CFLAGS"
-LDFLAGS="$LDFLAGS $POSTGRESQL_LDFLAGS $ICONV_LDFLAGS"
-LIBS="$LIBS $POSTGRESQL_LIBS $ICONV_LIBS"
+CPPFLAGS="$CPPFLAGS $POSTGRESQL_CPPFLAGS $ICONV_CFLAGS $LIBTAR_CPPFLAGS"
+LDFLAGS="$LDFLAGS $POSTGRESQL_LDFLAGS $ICONV_LDFLAGS $LIBTAR_LDFLAGS"
+LIBS="$LIBS $POSTGRESQL_LIBS $ICONV_LIBS $LIBTAR_LIBS"
 
 # Linux only
 ARCH="linux"
