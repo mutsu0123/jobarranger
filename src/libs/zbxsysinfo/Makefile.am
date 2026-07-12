@@ -9,8 +9,11 @@ DIST_SUBDIRS = $(SUBDIRS)
 
 # sysinfo.c provides parse_command and get_result_value_by_type,
 # referenced by zbxserver and zbxdbcache; compile it directly here.
+# Force-include common/common.h so EXECUTE_USER_PARAMETER is declared
+# (sysinfo.c uses it but does not include common/common.h itself).
 noinst_LIBRARIES = libsysinfo.a
 libsysinfo_a_SOURCES = sysinfo.c sysinfo.h
+libsysinfo_a_CFLAGS = $(AM_CFLAGS) -include $(srcdir)/common/common.h
 
 # Create combined convenience archives after sub-libs are built.
 # jobarg executables reference both the wrappers and the sub-libs directly;
