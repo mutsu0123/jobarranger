@@ -15,6 +15,28 @@ BUILD_TMP="$SRCDIR/build_tmp"
 
 mkdir -p "$BUILD_TMP" "$PREFIX/include" "$PREFIX/lib"
 
+echo "=== Generating config.h for Linux ==="
+cat > "$BUILD_TMP/config.h" <<'CONFEOF'
+/* Minimal config.h for building bundled libtar on Linux/glibc */
+#define HAVE_UNISTD_H 1
+#define HAVE_STRFTIME 1
+#define HAVE_LCHOWN 1
+#define HAVE_LIBGEN_H 1
+#define HAVE_BASENAME 1
+#define HAVE_DIRNAME 1
+#define HAVE_FNMATCH 1
+#define HAVE_FNMATCH_H 1
+#define HAVE_GLOB 1
+#define HAVE_GLOB_H 1
+#define HAVE_GETHOSTNAME 1
+#define HAVE_SNPRINTF 1
+#define HAVE_STRLCAT 1
+#define HAVE_STRLCPY 1
+#define HAVE_STRDUP 1
+#define HAVE_STRSEP 1
+#define MAJOR_IN_SYSMACROS 1
+CONFEOF
+
 echo "=== Generating listhash headers and sources ==="
 # Substitute @LISTHASH_PREFIX@ in the .in templates
 for tmpl in "$LISTHASH_DIR"/*.h.in "$LISTHASH_DIR"/*.c.in; do
@@ -25,7 +47,7 @@ for tmpl in "$LISTHASH_DIR"/*.h.in "$LISTHASH_DIR"/*.c.in; do
 done
 
 echo "=== Compiling libtar ==="
-CFLAGS="-I$LIB_DIR -I$BUILD_TMP -g -O2"
+CFLAGS="-I$LIB_DIR -I$BUILD_TMP -I$SRCDIR/compat -g -O2"
 
 OBJS=""
 for src in "$LIB_DIR"/*.c "$BUILD_TMP"/*.c; do
