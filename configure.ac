@@ -17,6 +17,7 @@ AM_CONDITIONAL([PROXY], [false])
 AC_PROG_CC
 AC_PROG_INSTALL
 AC_PROG_RANLIB
+PKG_PROG_PKG_CONFIG
 
 # Basic libraries
 AC_SEARCH_LIBS([socket], [socket])
@@ -92,11 +93,16 @@ AC_SUBST([LIBTAR_CPPFLAGS])
 AC_SUBST([LIBTAR_LDFLAGS])
 AC_SUBST([LIBTAR_LIBS])
 
+# json-c detection (required by jobarg_release and others that use <json.h>)
+PKG_CHECK_MODULES([JSONC], [json-c], [], [
+    AC_MSG_ERROR([json-c not found. Install json-c-devel (RHEL/AlmaLinux) or libjson-c-dev (Debian/Ubuntu).])
+])
+
 # Append to global compiler/linker flags so every Makefile.am picks them up
 # without needing individual AM_CPPFLAGS changes (PostgreSQL is required everywhere)
-CPPFLAGS="$CPPFLAGS $POSTGRESQL_CPPFLAGS $ICONV_CFLAGS $LIBTAR_CPPFLAGS"
+CPPFLAGS="$CPPFLAGS $POSTGRESQL_CPPFLAGS $ICONV_CFLAGS $LIBTAR_CPPFLAGS $JSONC_CFLAGS"
 LDFLAGS="$LDFLAGS $POSTGRESQL_LDFLAGS $ICONV_LDFLAGS $LIBTAR_LDFLAGS"
-LIBS="$LIBS $POSTGRESQL_LIBS $ICONV_LIBS $LIBTAR_LIBS"
+LIBS="$LIBS $POSTGRESQL_LIBS $ICONV_LIBS $LIBTAR_LIBS $JSONC_LIBS"
 
 # Linux only
 ARCH="linux"
