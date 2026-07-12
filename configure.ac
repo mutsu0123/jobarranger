@@ -50,6 +50,11 @@ AC_SUBST([DB_LIBS])
 AC_DEFINE([HAVE_POSTGRESQL], [1], [Define to 1 if PostgreSQL is available])
 # PQserverVersion is available since PostgreSQL 7.4
 AC_DEFINE([HAVE_FUNCTION_PQSERVERVERSION], [1], [Define to 1 if PQserverVersion exists])
+# Append to global compiler/linker flags so every Makefile.am picks them up
+# without needing individual AM_CPPFLAGS changes (PostgreSQL is required everywhere)
+CPPFLAGS="$CPPFLAGS $POSTGRESQL_CPPFLAGS"
+LDFLAGS="$LDFLAGS $POSTGRESQL_LDFLAGS"
+LIBS="$LIBS $POSTGRESQL_LIBS"
 
 # Linux only
 ARCH="linux"
