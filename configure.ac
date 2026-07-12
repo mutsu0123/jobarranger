@@ -192,6 +192,10 @@ src/jobarg_server/jarun/Makefile
 src/jobarg_server/jaselfmon/Makefile
 src/jobarg_server/jatrapper/Makefile
 src/libs/Makefile
+src/libs/zbxalgo/Makefile
+src/libs/zbxcommon/Makefile
+src/libs/zbxlog/Makefile
+src/libs/zbxnix/Makefile
 src/libs/zbxcomms/Makefile
 src/libs/zbxdb/Makefile
 src/libs/zbxdbcache/Makefile
