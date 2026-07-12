@@ -98,11 +98,18 @@ PKG_CHECK_MODULES([JSONC], [json-c], [], [
     AC_MSG_ERROR([json-c not found. Install json-c-devel (RHEL/AlmaLinux) or libjson-c-dev (Debian/Ubuntu).])
 ])
 
+# libssh2 detection (required by jobarg_session)
+found_ssh2="no"
+LIBSSH2_CHECK_CONFIG([yes])
+if test "x$found_ssh2" != "xyes"; then
+    AC_MSG_ERROR([libssh2 not found. Install libssh2-devel (RHEL/AlmaLinux) or libssh2-dev (Debian/Ubuntu).])
+fi
+
 # Append to global compiler/linker flags so every Makefile.am picks them up
 # without needing individual AM_CPPFLAGS changes (PostgreSQL is required everywhere)
-CPPFLAGS="$CPPFLAGS $POSTGRESQL_CPPFLAGS $ICONV_CFLAGS $LIBTAR_CPPFLAGS $JSONC_CFLAGS"
-LDFLAGS="$LDFLAGS $POSTGRESQL_LDFLAGS $ICONV_LDFLAGS $LIBTAR_LDFLAGS"
-LIBS="$LIBS $POSTGRESQL_LIBS $ICONV_LIBS $LIBTAR_LIBS $JSONC_LIBS"
+CPPFLAGS="$CPPFLAGS $POSTGRESQL_CPPFLAGS $ICONV_CFLAGS $LIBTAR_CPPFLAGS $JSONC_CFLAGS $SSH2_CFLAGS"
+LDFLAGS="$LDFLAGS $POSTGRESQL_LDFLAGS $ICONV_LDFLAGS $LIBTAR_LDFLAGS $SSH2_LDFLAGS"
+LIBS="$LIBS $POSTGRESQL_LIBS $ICONV_LIBS $LIBTAR_LIBS $JSONC_LIBS $SSH2_LIBS"
 
 # Linux only
 ARCH="linux"
