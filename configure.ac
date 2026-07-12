@@ -50,11 +50,21 @@ AC_SUBST([DB_LIBS])
 AC_DEFINE([HAVE_POSTGRESQL], [1], [Define to 1 if PostgreSQL is available])
 # PQserverVersion is available since PostgreSQL 7.4
 AC_DEFINE([HAVE_FUNCTION_PQSERVERVERSION], [1], [Define to 1 if PQserverVersion exists])
+# iconv detection (required - jastr.c uses iconv for encoding conversion)
+# On Linux glibc iconv is part of libc; on other platforms a separate libiconv
+# may be needed. LIBICONV_CHECK_CONFIG defines HAVE_ICONV in config.h so that
+# sysinc.h can conditionally include <iconv.h>.
+found_iconv="no"
+LIBICONV_CHECK_CONFIG([yes])
+if test "x$found_iconv" != "xyes"; then
+    AC_MSG_ERROR([iconv not found. Install libiconv-devel or libc-devel.])
+fi
+
 # Append to global compiler/linker flags so every Makefile.am picks them up
 # without needing individual AM_CPPFLAGS changes (PostgreSQL is required everywhere)
-CPPFLAGS="$CPPFLAGS $POSTGRESQL_CPPFLAGS"
-LDFLAGS="$LDFLAGS $POSTGRESQL_LDFLAGS"
-LIBS="$LIBS $POSTGRESQL_LIBS"
+CPPFLAGS="$CPPFLAGS $POSTGRESQL_CPPFLAGS $ICONV_CFLAGS"
+LDFLAGS="$LDFLAGS $POSTGRESQL_LDFLAGS $ICONV_LDFLAGS"
+LIBS="$LIBS $POSTGRESQL_LIBS $ICONV_LIBS"
 
 # Linux only
 ARCH="linux"
