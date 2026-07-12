@@ -1,0 +1,28 @@
+# Linux build target files: always LF
+configure.ac        text eol=lf
+configure.in.bk     text eol=lf
+aclocal.m4          text eol=lf
+Makefile.am         text eol=lf
+Makefile.in         text eol=lf
+*.am                text eol=lf
+*.m4                text eol=lf
+src/**/*.c          text eol=lf
+src/**/*.h          text eol=lf
+jainclude/*.h       text eol=lf
+include/*.h         text eol=lf
+jaconf/**           text eol=lf
+man/**              text eol=lf
+spec/**             text eol=lf
+database/**         text eol=lf
+
+# Binary files (must come after text rules to override)
+*.png    binary
+*.jpg    binary
+*.gz     binary
+*.tar    binary
+*.rpm    binary
+*.so     binary
+*.a      binary
+*.exe    binary
+*.dll    binary
+master.tar.gz binary
