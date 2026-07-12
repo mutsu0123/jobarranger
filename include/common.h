@@ -485,6 +485,13 @@ typedef enum
        GROUP_STATUS_DISABLED
 } zbx_group_status_type_t;
 
+/* sigval portability: sival_int on Linux/POSIX, __sival_int on AIX */
+#if defined(_AIX)
+#	define ZBX_SIVAL_INT	__sival_int
+#else
+#	define ZBX_SIVAL_INT	sival_int
+#endif
+
 /* daemon type */
 #define ZBX_DAEMON_TYPE_SERVER		0x01
 #define ZBX_DAEMON_TYPE_PROXY_ACTIVE	0x02
