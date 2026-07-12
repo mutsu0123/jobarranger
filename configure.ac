@@ -7,9 +7,8 @@ AC_CONFIG_MACRO_DIR([m4])
 
 AM_INIT_AUTOMAKE([foreign subdir-objects])
 
-dnl ==== legacy conditionals for existing Makefile.am ====
-AM_CONDITIONAL([SERVER], [false])
-AM_CONDITIONAL([AGENT],  [false])
+AM_CONDITIONAL([SERVER], [true])
+AM_CONDITIONAL([AGENT],  [true])
 AM_CONDITIONAL([WITH_ODBC], [false])
 AM_CONDITIONAL([JABBER], [false])
 AM_CONDITIONAL([PROXY], [false])
@@ -225,6 +224,13 @@ src/libs/zbxsysinfo/linux/Makefile
 src/libs/zbxsysinfo/unknown/Makefile
 ])
 
-
+SERVER_LIBS=""
+SERVER_LDFLAGS=""
+AGENT_LIBS=""
+AGENT_LDFLAGS=""
+AC_SUBST([SERVER_LIBS])
+AC_SUBST([SERVER_LDFLAGS])
+AC_SUBST([AGENT_LIBS])
+AC_SUBST([AGENT_LDFLAGS])
 
 AC_OUTPUT
