@@ -22,9 +22,9 @@ endif
 if SERVER
 SERVER_SUBDIRS = \
 	jobarg_command \
-	jobarg_session \
 	jobarg_monitor \
-	jobarg_server 
+	jobarg_server
+# jobarg_session excluded: jobarg_session.c missing from repo (Issue #19)
 endif
 
 SUBDIRS = \
