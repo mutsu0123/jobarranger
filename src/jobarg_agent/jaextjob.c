@@ -55,7 +55,7 @@ int ja_extjob_script(ja_job_object * job, char* datafile)
     zabbix_log(LOG_LEVEL_DEBUG, "In %s() extjob script start!", __function_name);
     zabbix_log(LOG_LEVEL_DEBUG, "In %s()", __function_name);
     ret = FAIL;
-    int changeToAcp = FALSE;
+    int changeToAcp = 0;
 //added by DAT
 #ifdef _WINDOWS
     UINT codePage = GetACP();
