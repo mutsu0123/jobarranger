@@ -18,6 +18,7 @@ mkdir -p "$BUILD_TMP" "$PREFIX/include" "$PREFIX/lib"
 echo "=== Generating config.h for Linux ==="
 cat > "$BUILD_TMP/config.h" <<'CONFEOF'
 /* Minimal config.h for building bundled libtar on Linux/glibc */
+#define PACKAGE_VERSION "1.0"
 #define HAVE_UNISTD_H 1
 #define HAVE_STRFTIME 1
 #define HAVE_LCHOWN 1
@@ -47,7 +48,7 @@ for tmpl in "$LISTHASH_DIR"/*.h.in "$LISTHASH_DIR"/*.c.in; do
 done
 
 echo "=== Compiling libtar ==="
-CFLAGS="-I$LIB_DIR -I$BUILD_TMP -I$SRCDIR/compat -g -O2"
+CFLAGS="-I$LIB_DIR -I$BUILD_TMP -I$SRCDIR/compat -include stdlib.h -include string.h -include unistd.h -g -O2"
 
 OBJS=""
 for src in "$LIB_DIR"/*.c "$BUILD_TMP"/*.c; do
