@@ -38,5 +38,6 @@ libjaserver_a_SOURCES = \
 	jajobnet.c \
 	jadb.c \
 	jazbxmsg.c \
-	jajobid.c
+	jajobid.c \
+	jasyscall.c
 endif
