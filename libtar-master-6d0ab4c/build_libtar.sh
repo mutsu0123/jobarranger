@@ -25,6 +25,7 @@ cat > "$BUILD_TMP/config.h" <<'CONFEOF'
 #define HAVE_LIBGEN_H 1
 #define HAVE_BASENAME 1
 #define HAVE_DIRNAME 1
+#define NEED_FNMATCH 1
 #define HAVE_FNMATCH 1
 #define HAVE_FNMATCH_H 1
 #define HAVE_GLOB 1
@@ -32,9 +33,11 @@ cat > "$BUILD_TMP/config.h" <<'CONFEOF'
 #define HAVE_GETHOSTNAME 1
 #define HAVE_SNPRINTF 1
 #define HAVE_STRLCAT 1
-#define HAVE_STRLCPY 1
+#define NEED_STRLCPY 1
 #define HAVE_STRDUP 1
 #define HAVE_STRSEP 1
+#define NEED_STRMODE 1
+#define NEED_MAKEDEV 1
 #define MAJOR_IN_SYSMACROS 1
 CONFEOF
 
@@ -51,7 +54,7 @@ echo "=== Compiling libtar ==="
 CFLAGS="-I$LIB_DIR -I$BUILD_TMP -I$SRCDIR/compat -include stdlib.h -include string.h -include unistd.h -g -O2"
 
 OBJS=""
-for src in "$LIB_DIR"/*.c "$BUILD_TMP"/*.c; do
+for src in "$LIB_DIR"/*.c "$BUILD_TMP"/*.c "$SRCDIR/compat/strlcpy.c" "$SRCDIR/compat/strmode.c"; do
     [ -f "$src" ] || continue
     obj="$BUILD_TMP/$(basename "$src" .c).o"
     echo "  CC $src"
